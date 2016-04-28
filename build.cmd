@@ -1,7 +1,5 @@
-Rem @echo off
+@echo off
 cls
-
-dir
 
 .paket\paket.bootstrapper.exe
 if errorlevel 1 (
