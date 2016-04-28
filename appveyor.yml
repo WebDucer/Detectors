@@ -4,6 +4,3 @@ build_script:
   - cmd: build.cmd
 test: off
 version: 0.0.1.{build}-{branch}
-artifacts:
-  - path: Output/Artifacts
-    name: Artifacts

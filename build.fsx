@@ -52,6 +52,9 @@ let nunitToolPath = "packages/fakebuild/NUnit.Runners/tools"
 // Read additional information from the release notes document
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
 
+// Version
+let version = buildVersion
+
 // Targets
 Description "Cleanup output directories before build"
 Target "Cleanup" (fun _ ->
@@ -101,6 +104,8 @@ Target "RunTests" (fun _ ->
           )
 
     AppVeyor.UploadTestResultsFile AppVeyor.TestResultsType.NUnit resultFile
+
+    trace version
 )
 
 "Cleanup"
