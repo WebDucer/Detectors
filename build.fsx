@@ -91,15 +91,16 @@ Target "BuildTests" (fun _ ->
 
 Description "Run tests with NUnit 2"
 Target "RunTests" (fun _ ->
+    let resultFile = artifactOutput @@ "TestResults.xaml"
     !! (testOutput + "/**/*Tests.dll")
         |> NUnit (fun p ->
             {p with
                 ToolPath = nunitToolPath
-                OutputFile = artifactOutput @@ "TestResults.xaml"
+                OutputFile = resultFile
             }
           )
 
-    AppVeyor.UploadTestResultsXml AppVeyor.TestResultsType.NUnit artifactOutput
+    AppVeyor.UploadTestResultsFile AppVeyor.TestResultsType.NUnit resultFile
 )
 
 "Cleanup"
