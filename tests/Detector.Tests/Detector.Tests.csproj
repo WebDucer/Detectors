@@ -60,4 +60,10 @@
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Detector\Detector.csproj">
+      <Project>{6afcb6e5-ad07-486d-8026-e923dfb89b6f}</Project>
+      <Name>Detector</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
