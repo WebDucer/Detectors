@@ -23,7 +23,7 @@ let summary = "Implementation of Detector use case"
 let description = "Omplementation of Detector use case, if only on of events is relevant."
 
 // List of author names (for NuGet package)
-let authors = [ "Eugen (WebDucer) Richter" ]
+let authors = [ "Eugen [WebDucer] Richter" ]
 
 // Tags for your project (for NuGet package)
 let tags = "Detector Event Async"
@@ -55,7 +55,24 @@ let release = LoadReleaseNotes "RELEASE_NOTES.md"
 // Targets
 Description "Cleanup output directories before build"
 Target "Cleanup" (fun _ ->
+    ReportProgress "Cleanup output folders"
+
     CleanDirs [baseOutput; buildOutput; artifactOutput]
+)
+
+Description "Update assembly info"
+Target "UpdateAssembly" (fun _ ->
+    ReportProgressStart "Update assembly info"
+
+    BulkReplaceAssemblyInfoVersions "src/" (fun p ->
+        {p with
+            AssemblyVersion = "0.0.1.0"
+            AssemblyFileVersion = "0.0.1.0"
+            AssemblyInformationalVersion = "0.0.1.0"
+        }
+    )
+
+    ReportProgressFinish "Update assembly info"
 )
 
 Description "Build library"
@@ -81,9 +98,12 @@ Target "RunTests" (fun _ ->
                 OutputFile = artifactOutput @@ "TestResults.xaml"
             }
           )
+
+    AppVeyor.UploadTestResultsXml AppVeyor.TestResultsType.NUnit artifactOutput
 )
 
 "Cleanup"
+    ==> "UpdateAssembly"
     ==> "BuildLibrary"
     ==> "BuildTests"
     ==> "RunTests"
