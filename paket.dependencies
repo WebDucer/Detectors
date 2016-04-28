@@ -1,0 +1,12 @@
+source https://nuget.org/api/v2
+
+group FakeBuild
+  source https://nuget.org/api/v2
+
+  nuget FAKE
+  nuget NUnit.Runners ~> 2
+
+group UnitTest
+  source https://nuget.org/api/v2
+  
+  nuget NUnit ~> 2
