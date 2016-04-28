@@ -10,3 +10,5 @@ group UnitTest
   source https://nuget.org/api/v2
   
   nuget NUnit ~> 2
+  nuget FluentAssertions ~> 3
+  nuget Moq ~> 4

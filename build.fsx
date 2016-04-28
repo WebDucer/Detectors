@@ -40,8 +40,14 @@ let baseOutput = "Output"
 // Output directory for build
 let buildOutput = baseOutput @@ "Build"
 
+// Output directory for tests
+let testOutput = baseOutput @@ "TestBuild"
+
 // Output directory for artifacts
 let artifactOutput = baseOutput @@ "Artifacts"
+
+// NUnit runner path
+let nunitToolPath = "packages/fakebuild/NUnit.Runners/tools"
 
 // Read additional information from the release notes document
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
@@ -52,4 +58,35 @@ Target "Cleanup" (fun _ ->
     CleanDirs [baseOutput; buildOutput; artifactOutput]
 )
 
-RunTargetOrDefault "Cleanup"
+Description "Build library"
+Target "BuildLibrary" (fun _ ->
+    !! "src/**/*csproj"
+        |> MSBuildRelease buildOutput "Rebuild"
+        |> Log "Build Output: "
+)
+
+Description "Build tests"
+Target "BuildTests" (fun _ ->
+    !! "tests/**/*.csproj"
+        |> MSBuildRelease testOutput "Rebuild"
+        |> Log "Test Build Output: "
+)
+
+Description "Run tests with NUnit 2"
+Target "RunTests" (fun _ ->
+    !! (testOutput + "/**/*Tests.dll")
+        |> NUnit (fun p ->
+            {p with
+                ToolPath = nunitToolPath
+                OutputFile = artifactOutput @@ "TestResults.xaml"
+            }
+          )
+)
+
+"Cleanup"
+    ==> "BuildLibrary"
+    ==> "BuildTests"
+    ==> "RunTests"
+
+
+RunTargetOrDefault "RunTests"

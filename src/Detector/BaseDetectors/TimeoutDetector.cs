@@ -15,7 +15,7 @@ namespace de.webducer.net.Detector.BaseDetectors {
     #region Constructors
     public TimeoutDetector(TimeSpan timeOut, ResultState positiveState = ResultState.TimeOut,
       T positiveResult = default(T)) : base(positiveState, positiveResult) {
-      if (timeOut.Milliseconds <= 0) {
+      if (timeOut.TotalMilliseconds <= 0) {
         throw new ArgumentException("Timeout should be alsways positive", nameof(timeOut));
       }
 

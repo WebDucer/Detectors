@@ -17,7 +17,7 @@ namespace de.webducer.net.Detector.Base {
     protected DetectorBase(ResultState positiveState, T positiveResult = default(T)) {
       PositiveState = positiveState;
       PositiveResult = positiveResult;
-      TcsResult = new TaskCompletionSourceWrapper<ITaskResult<T>>(new TaskCompletionSource<ITaskResult<T>>(TaskCreationOptions.PreferFairness));
+      TcsResult = new TaskCompletionSourceWrapper<ITaskResult<T>>(new TaskCompletionSource<ITaskResult<T>>());
     }
     #endregion
 
