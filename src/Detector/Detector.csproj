@@ -40,10 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDetectors\TimeoutDetector.cs" />
+    <Compile Include="Base\DetectorBase.cs" />
+    <Compile Include="Base\ResultState.cs" />
+    <Compile Include="Base\TaskCompletionSourceWrapper.cs" />
+    <Compile Include="Base\TaskResult.cs" />
+    <Compile Include="Interfaces\IDetector.cs" />
+    <Compile Include="Interfaces\ITaskResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -53,4 +63,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="..\..\.paket\paket.targets" />
 </Project>

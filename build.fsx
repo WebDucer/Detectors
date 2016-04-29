@@ -23,7 +23,7 @@ let summary = "Implementation of Detector use case"
 let description = "Omplementation of Detector use case, if only on of events is relevant."
 
 // List of author names (for NuGet package)
-let authors = [ "Eugen (WebDucer) Richter" ]
+let authors = [ "Eugen [WebDucer] Richter" ]
 
 // Tags for your project (for NuGet package)
 let tags = "Detector Event Async"
@@ -40,16 +40,95 @@ let baseOutput = "Output"
 // Output directory for build
 let buildOutput = baseOutput @@ "Build"
 
+// Output directory for tests
+let testOutput = baseOutput @@ "TestBuild"
+
 // Output directory for artifacts
 let artifactOutput = baseOutput @@ "Artifacts"
+
+// NUnit runner path
+let nunitToolPath = "packages/fakebuild/NUnit.Runners/tools"
 
 // Read additional information from the release notes document
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
 
+// Version
+let buildCounter =
+    match buildServer with
+    | AppVeyor -> Fake.AppVeyor.AppVeyorEnvironment.BuildNumber
+    | Jenkins | TeamCity | Bamboo | Travis | GitLabCI | TeamFoundation -> buildVersion
+    | _ -> "0"
+
+// Version from git tag
+
+
 // Targets
 Description "Cleanup output directories before build"
 Target "Cleanup" (fun _ ->
+    ReportProgress "Cleanup output folders"
+
     CleanDirs [baseOutput; buildOutput; artifactOutput]
 )
 
-RunTargetOrDefault "Cleanup"
+Description "Update assembly info"
+Target "UpdateAssembly" (fun _ ->
+    ReportProgressStart "Update assembly info"
+
+    BulkReplaceAssemblyInfoVersions "src/" (fun p ->
+        {p with
+            AssemblyVersion = "0.0.1.0"
+            AssemblyFileVersion = "0.0.1.0"
+            AssemblyInformationalVersion = "0.0.1.0"
+        }
+    )
+
+    ReportProgressFinish "Update assembly info"
+)
+
+Description "Build library"
+Target "BuildLibrary" (fun _ ->
+    !! "src/**/*csproj"
+        |> MSBuildRelease buildOutput "Rebuild"
+        |> Log "Build Output: "
+)
+
+Description "Build tests"
+Target "BuildTests" (fun _ ->
+    !! "tests/**/*.csproj"
+        |> MSBuildRelease testOutput "Rebuild"
+        |> Log "Test Build Output: "
+)
+
+Description "Run tests with NUnit 2"
+Target "RunTests" (fun _ ->
+    let resultFile = artifactOutput @@ "TestResults.xaml"
+    !! (testOutput + "/**/*Tests.dll")
+        |> NUnit (fun p ->
+            {p with
+                ToolPath = nunitToolPath
+                OutputFile = resultFile
+            }
+          )
+)
+
+Description "Publish test results"
+Target "PublishTestResults" (fun _ ->
+    let resultFile = artifactOutput @@ "TestResults.xaml"
+    AppVeyor.UploadTestResultsFile AppVeyor.TestResultsType.NUnit resultFile
+)
+
+Description "Create nuget package of the library"
+Target "CreatePackage" (fun _ ->
+    trace "Create package"
+)
+
+"Cleanup"
+    ==> "UpdateAssembly"
+    ==> "BuildLibrary"
+    ==> "BuildTests"
+    ==> "RunTests"
+    ==> "PublishTestResults"
+    ==> "CreatePackage"
+
+
+RunTargetOrDefault "CreatePackage"

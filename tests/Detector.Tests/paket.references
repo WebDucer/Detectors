@@ -1,2 +1,4 @@
 ﻿group UnitTest
-	NUnit
+  NUnit
+  FluentAssertions
+  Moq
