@@ -53,7 +53,14 @@ let nunitToolPath = "packages/fakebuild/NUnit.Runners/tools"
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
 
 // Version
-let version = buildVersion
+let buildCounter =
+    match buildServer with
+    | AppVeyor -> Fake.AppVeyor.AppVeyorEnvironment.BuildNumber
+    | Jenkins | TeamCity | Bamboo | Travis | GitLabCI | TeamFoundation -> buildVersion
+    | _ -> "0"
+
+// Version from git tag
+
 
 // Targets
 Description "Cleanup output directories before build"
@@ -102,10 +109,17 @@ Target "RunTests" (fun _ ->
                 OutputFile = resultFile
             }
           )
+)
 
+Description "Publish test results"
+Target "PublishTestResults" (fun _ ->
+    let resultFile = artifactOutput @@ "TestResults.xaml"
     AppVeyor.UploadTestResultsFile AppVeyor.TestResultsType.NUnit resultFile
+)
 
-    trace version
+Description "Create nuget package of the library"
+Target "CreatePackage" (fun _ ->
+    trace "Create package"
 )
 
 "Cleanup"
@@ -113,6 +127,8 @@ Target "RunTests" (fun _ ->
     ==> "BuildLibrary"
     ==> "BuildTests"
     ==> "RunTests"
+    ==> "PublishTestResults"
+    ==> "CreatePackage"
 
 
-RunTargetOrDefault "RunTests"
+RunTargetOrDefault "CreatePackage"
