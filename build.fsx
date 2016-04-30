@@ -14,7 +14,7 @@ open Fake.ReleaseNotesHelper
 //  - by the generated NuGet package
 
 // The name of the project
-let project = "Detector"
+let project = "WD.Detector"
 
 // Short summary of the project
 let summary = "Implementation of Detector use case"
@@ -28,12 +28,6 @@ let authors = [ "Eugen [WebDucer] Richter" ]
 // Tags for your project (for NuGet package)
 let tags = "Detector Event Async"
 
-// File system information
-let solutionFile  = "Detector.sln"
-
-// Pattern specifying assemblies to be tested using NUnit
-let testAssemblies = "tests/**/bin/Release/*Tests*.dll"
-
 // Base output directory for project
 let baseOutput = "Output"
 
@@ -42,6 +36,9 @@ let buildOutput = baseOutput @@ "Build"
 
 // Output directory for tests
 let testOutput = baseOutput @@ "TestBuild"
+
+// Output directory for temp files
+let tempOutput = baseOutput @@ "Temp"
 
 // Output directory for artifacts
 let artifactOutput = baseOutput @@ "Artifacts"
@@ -59,30 +56,99 @@ let buildCounter =
     | Jenkins | TeamCity | Bamboo | Travis | GitLabCI | TeamFoundation -> buildVersion
     | _ -> "0"
 
-// Version from git tag
+// ----------------------------------------------
+// START: Version from git tag
+// ----------------------------------------------
+type ReleaseType = Release | Beta | Alpha | ReleaseCandidate
 
+/// Get the SHA1 for the last available tag or None, if not tags set in repository
+let getShaFromLastTag =
+    let gitLastTagShaCommand = "rev-list --tags --max-count=1"
+    let ok,msg,error = runGitCommand "" gitLastTagShaCommand
+    if ok then Some msg.[0] else None
+
+/// Get the tag name for the given SHA1 commit or None, if no tag for this commit
+let getTagForCommit sha =
+    let gitLastTagCommand = sprintf "describe --tag %s" sha
+    let ok,msg,error = runGitCommand "" gitLastTagCommand
+    if ok then Some (msg |> Seq.head) else None
+
+/// Get version from the last tag in git or "0.0.0" version as fallback
+let getLastTag prefix =
+    let fallbackVersion = "0.0.0"
+    let tagVersion =
+        match getShaFromLastTag with
+        | Some s ->
+            match getTagForCommit s with
+            | Some ss -> ss
+            | None _ -> prefix + fallbackVersion
+        | None _ -> prefix + fallbackVersion
+    let pattern =
+        if isNullOrEmpty prefix then "^" else sprintf "(?<=^%s){1}" prefix
+    let pattern = sprintf "%s%s" pattern "(\d+\.\d+){1}(\.\d+){0,2}$"
+    let versionRegex = System.Text.RegularExpressions.Regex(pattern)
+    match versionRegex.Match tagVersion with
+    | s when s.Success -> SemVerHelper.parse s.Value
+    | _ -> SemVerHelper.parse fallbackVersion
+
+/// Release state
+let getReleaseState =
+    let currentBranch = Git.Information.getBranchName ""
+    match currentBranch with
+    | "master" -> Release
+    | "develop" -> Beta
+    | s when startsWith s "hotfix/" -> ReleaseCandidate
+    | s when startsWith s "release/" -> ReleaseCandidate
+    | _ -> Alpha
+
+/// Get the version for assembly (+1 on patch level, if not on master)
+let getAssemblyVersion prefix =
+    let version = getLastTag prefix
+    let patch =
+        match getReleaseState with
+        | Release -> version.Patch
+        | _ -> version.Patch + 1
+    sprintf "%d.%d.%d.%s" version.Major version.Minor patch buildCounter
+
+/// Get the version for nuget package (+1 on patch level, if not on master)
+let getNugetVersion prefix =
+    let version = getLastTag prefix
+    let releaseState = getReleaseState
+    let patch =
+        match releaseState with
+        | Release -> version.Patch
+        | _ -> version.Patch + 1
+    match releaseState with
+    | Release -> sprintf "%d.%d.%d" version.Major version.Minor patch
+    | s -> sprintf "%d.%d.%d-%A%s" version.Major version.Minor patch s buildCounter
+
+/// TRUE: stable realease
+let isStableRelease =
+    match getReleaseState with
+    | Release -> true
+    | _ -> false
+// ----------------------------------------------
+// END: Version from git tag
+// ----------------------------------------------
+
+let assemblyVersion = getAssemblyVersion ""
+let nugetVersion = getNugetVersion ""
 
 // Targets
 Description "Cleanup output directories before build"
 Target "Cleanup" (fun _ ->
-    ReportProgress "Cleanup output folders"
-
-    CleanDirs [baseOutput; buildOutput; artifactOutput]
+    CleanDirs [baseOutput; buildOutput; artifactOutput; tempOutput; testOutput]
 )
 
 Description "Update assembly info"
 Target "UpdateAssembly" (fun _ ->
-    ReportProgressStart "Update assembly info"
-
     BulkReplaceAssemblyInfoVersions "src/" (fun p ->
         {p with
-            AssemblyVersion = "0.0.1.0"
-            AssemblyFileVersion = "0.0.1.0"
-            AssemblyInformationalVersion = "0.0.1.0"
+            AssemblyVersion = assemblyVersion
+            AssemblyFileVersion = assemblyVersion
+            AssemblyInformationalVersion = assemblyVersion
         }
     )
-
-    ReportProgressFinish "Update assembly info"
 )
 
 Description "Build library"
@@ -119,7 +185,23 @@ Target "PublishTestResults" (fun _ ->
 
 Description "Create nuget package of the library"
 Target "CreatePackage" (fun _ ->
-    trace "Create package"
+    NuGet (fun p ->
+        {p with
+            Authors = authors
+            Project = project
+            Version = nugetVersion
+            OutputPath = artifactOutput
+            Summary = summary
+            Description = description
+            WorkingDir = "./"
+            Tags = tags
+            Publish = false
+            Files = 
+            [
+                (buildOutput @@ "WD.Detector.dll", Some "lib/net45", None)
+            ]
+        }
+    ) "Detectors.nupkg"
 )
 
 "Cleanup"

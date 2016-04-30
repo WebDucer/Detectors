@@ -5,6 +5,7 @@ group FakeBuild
 
   nuget FAKE
   nuget NUnit.Runners ~> 2
+  nuget NuGet.CommandLine
 
 group UnitTest
   source https://nuget.org/api/v2
