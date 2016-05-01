@@ -1,6 +1,16 @@
 init:
   - git config --global core.autocrlf input
+image: Visual Studio 2015
 build_script:
   - cmd: build.cmd
+build:
+  verbosity: minimal
 test: off
 version: 0.0.1.{build}-{branch}
+deploy:
+- provider: NuGet
+  api_key:
+    secure: LRa8ypp0HoKFnPAuNeVS7Nb3EamiBqVsoZdUB8FEq1WoNEjvxcc+DvQ2FMGEZpOH
+  skip_symbols: true
+  on:
+    branch: '[master|develop]'

@@ -204,13 +204,24 @@ Target "CreatePackage" (fun _ ->
     ) "Detectors.nupkg"
 )
 
+Description "Publish artifacts"
+Target "PublishArtifacts" (fun _ ->
+    AppVeyor.PushArtifacts (!! (artifactOutput + "/**/*.nupkg"))
+)
+
+Description "Finish Task"
+Target "All" (fun _ ->
+    trace "Build finished"
+)
+
 "Cleanup"
     ==> "UpdateAssembly"
     ==> "BuildLibrary"
     ==> "BuildTests"
     ==> "RunTests"
-    ==> "PublishTestResults"
     ==> "CreatePackage"
+    =?> ("PublishTestResults", buildServer = BuildServer.AppVeyor)
+    =?> ("PublishArtifacts", buildServer = BuildServer.AppVeyor)
+    ==> "All"
 
-
-RunTargetOrDefault "CreatePackage"
+RunTargetOrDefault "All"
