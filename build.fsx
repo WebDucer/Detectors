@@ -20,7 +20,7 @@ let project = "WD.Detector"
 let summary = "Implementation of Detector use case"
 
 // Longer description of the project
-let description = "Omplementation of Detector use case, if only on of events is relevant."
+let description = "Implementation of Detector use case, if only one of the events is relevant."
 
 // List of author names (for NuGet package)
 let authors = [ "Eugen [WebDucer] Richter" ]
