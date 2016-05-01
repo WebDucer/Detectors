@@ -206,14 +206,7 @@ Target "CreatePackage" (fun _ ->
 
 Description "Publish artifacts"
 Target "PublishArtifacts" (fun _ ->
-    AppVeyor.PushArtifact (fun p ->
-        {p with
-            Path = artifactOutput
-            FileName = project + ".nupkg"
-            DeploymentName = project
-            Type = AppVeyor.ArtifactType.Auto
-        }
-    )
+    AppVeyor.PushArtifacts (!! (artifactOutput + "*.nupkg"))
 )
 
 Description "Finish Task"
