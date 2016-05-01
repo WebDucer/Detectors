@@ -206,7 +206,7 @@ Target "CreatePackage" (fun _ ->
 
 Description "Publish artifacts"
 Target "PublishArtifacts" (fun _ ->
-    AppVeyor.PushArtifacts (!! (artifactOutput + "*.nupkg"))
+    AppVeyor.PushArtifacts (!! (artifactOutput + "/**/*.nupkg"))
 )
 
 Description "Finish Task"
