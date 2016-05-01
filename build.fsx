@@ -142,6 +142,9 @@ Target "Cleanup" (fun _ ->
 
 Description "Update assembly info"
 Target "UpdateAssembly" (fun _ ->
+    trace <| sprintf "Current branch: %s" (getBranchName "")
+    trace <| sprintf "Assembly version: %s" assemblyVersion
+
     BulkReplaceAssemblyInfoVersions "src/" (fun p ->
         {p with
             AssemblyVersion = assemblyVersion
@@ -185,6 +188,8 @@ Target "PublishTestResults" (fun _ ->
 
 Description "Create nuget package of the library"
 Target "CreatePackage" (fun _ ->
+    trace <| sprintf "nuget version: %s" nugetVersion
+
     NuGet (fun p ->
         {p with
             Authors = authors
