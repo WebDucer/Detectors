@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDetectorTests.cs" />
+    <Compile Include="CancelationDetectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskCompletionSourceWrapperTests.cs" />
     <Compile Include="TimeoutDetectorTests.cs" />

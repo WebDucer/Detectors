@@ -35,6 +35,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDetectors\CancelationDetector.cs" />
     <Compile Include="BaseDetectors\TimeoutDetector.cs" />
     <Compile Include="Base\DetectorBase.cs" />
     <Compile Include="Base\ResultState.cs" />
