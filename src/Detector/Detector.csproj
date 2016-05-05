@@ -41,6 +41,7 @@
     <Compile Include="Base\ResultState.cs" />
     <Compile Include="Base\TaskCompletionSourceWrapper.cs" />
     <Compile Include="Base\TaskResult.cs" />
+    <Compile Include="Extensions\DetectorExtensions.cs" />
     <Compile Include="Interfaces\IDetector.cs" />
     <Compile Include="Interfaces\ITaskResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -48,9 +49,7 @@
   <ItemGroup>
     <None Include="paket.references" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

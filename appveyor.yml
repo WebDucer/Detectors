@@ -11,7 +11,7 @@ build_script:
 build:
   verbosity: minimal
 test: off
-version: 0.0.1.{build}-{branch}
+version: Build-{build}-{branch}
 deploy:
 - provider: NuGet
   api_key:
