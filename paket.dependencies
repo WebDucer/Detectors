@@ -7,6 +7,11 @@ group FakeBuild
   nuget NUnit.Runners ~> 2
   nuget NuGet.CommandLine
 
+group Example
+	source https://nuget.org/api/v2
+
+	nuget Prism.Core
+
 group UnitTest
   source https://nuget.org/api/v2
   
