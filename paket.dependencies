@@ -5,8 +5,17 @@ group FakeBuild
 
   nuget FAKE
   nuget NUnit.Runners ~> 2
+  nuget NuGet.CommandLine
+
+group Example
+	source https://nuget.org/api/v2
+
+	nuget Prism.Core
 
 group UnitTest
   source https://nuget.org/api/v2
   
   nuget NUnit ~> 2
+  nuget FluentAssertions ~> 3
+  nuget Moq ~> 4
+  nuget Prism.Core

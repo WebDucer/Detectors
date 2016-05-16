@@ -1,0 +1,89 @@
+﻿<Grid x:Class="Detector.Example.DiagnosisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Detector.Example"
+             xmlns:g="clr-namespace:WpfGauge;assembly=WpfGauge"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance local:DiagnosisViewModel, IsDesignTimeCreatable=True}">
+    <Grid.Resources>
+        <GridLength x:Key="RowSpacing">3</GridLength>
+
+        <DataTemplate DataType="{x:Type local:MessageViewModel}">
+            <local:MessageView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:ErrorMessageViewModel}">
+            <local:MessageView Background="Yellow" Foreground="Red" FontWeight="Bold" />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:ResultMessageViewModel}">
+            <local:MessageView Background="Green" Foreground="Blue" FontWeight="Bold" />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:VoltageViewModel}">
+            <local:VoltageView />
+        </DataTemplate>
+    </Grid.Resources>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Splitter -->
+    <GridSplitter Background="Red" Grid.Column="1" Width="5" ShowsPreview="True" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" />
+    
+    <!-- Fake Bar -->
+    <Grid Grid.Column="2" Margin="3,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource RowSpacing}" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource RowSpacing}" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource RowSpacing}" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock TextAlignment="Center" Text="FAKE Bar" FontWeight="Bold" />
+        
+        <!-- Connection -->
+        <TextBlock Text="Connected:" Grid.Row="2" />
+        <CheckBox Grid.Row="3" IsChecked="{Binding Fake.IsConnected}" />
+        
+        <!-- Voltage -->
+        <TextBlock Text="Voltage:" Grid.Row="5" />
+        <Slider Minimum="0" Maximum="10" Value="{Binding Fake.VoltageValueBase}" Grid.Row="6" />
+    </Grid>
+    
+    <!-- Diagnosis View -->
+    <Grid Grid.Column="0" Margin="0,0,3,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{StaticResource RowSpacing}" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="{StaticResource RowSpacing}" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{StaticResource RowSpacing}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <!-- Label -->
+        <TextBlock Text="USB Voltage Diagnosis" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="0" Grid.ColumnSpan="3" />
+        
+        <!-- View for current step -->
+        <ContentControl Content="{Binding CurrentViewModel}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
+        
+        <!-- Button -->
+        <Button Content="Start Diagnosis" Command="{Binding StartDiagnosisCommand}" Grid.Row="4" />
+        <Button Content="Cancel" Command="{Binding CancelCommand}" Grid.Row="4" Grid.Column="2" />
+    </Grid>
+</Grid>
