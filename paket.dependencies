@@ -18,3 +18,4 @@ group UnitTest
   nuget NUnit ~> 2
   nuget FluentAssertions ~> 3
   nuget Moq ~> 4
+  nuget Prism.Core

@@ -7,8 +7,8 @@
     <ProjectGuid>{1F6C3516-EC68-4C30-BC36-9DB2361B182A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Detectro.Example</RootNamespace>
-    <AssemblyName>Detectro.Example</AssemblyName>
+    <RootNamespace>Detector.Example</RootNamespace>
+    <AssemblyName>Detector.Example</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,12 +49,46 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfGauge">
+      <HintPath>..\..\libs\WpfGauge.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Detectors\DisconnectedDetector.cs" />
+    <Compile Include="Detectors\ConnectedDetector.cs" />
+    <Compile Include="Detectors\Range.cs" />
+    <Compile Include="Detectors\RangeDetector.cs" />
+    <Compile Include="Detectors\RangePurposeMethod.cs" />
+    <Compile Include="DiagnosisView.xaml.cs">
+      <DependentUpon>DiagnosisView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosisViewModel.cs" />
+    <Compile Include="Events\ConnectState.cs" />
+    <Compile Include="Events\ConnectStateEvent.cs" />
+    <Compile Include="Events\VoltageEvent.cs" />
+    <Compile Include="FakeViewModel.cs" />
+    <Compile Include="MessageView.xaml.cs">
+      <DependentUpon>MessageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorMessageViewModel.cs" />
+    <Compile Include="ResultMessageViewModel.cs" />
+    <Compile Include="MessageViewModel.cs" />
+    <Compile Include="StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StartViewModel.cs" />
+    <Compile Include="VoltageView.xaml.cs">
+      <DependentUpon>VoltageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VoltageViewModel.cs" />
+    <Page Include="DiagnosisView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,10 +97,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VoltageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

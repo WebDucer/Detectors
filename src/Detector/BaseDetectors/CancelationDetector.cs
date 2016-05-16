@@ -1,5 +1,6 @@
 ﻿using de.webducer.net.Detector.Base;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace de.webducer.net.Detector.BaseDetectors {
   /// Detect, if user has canceled the action
   /// </summary>
   /// <typeparam name="T">User defined type for extra result data</typeparam>
+  [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
   public class CancelationDetector<T> : DetectorBase<T> {
     private static readonly TimeSpan _DEFAULT_WAIT_TIME = TimeSpan.FromSeconds(1);
     private readonly CancellationToken _cancelationToken;

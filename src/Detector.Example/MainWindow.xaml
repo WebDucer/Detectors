@@ -1,0 +1,23 @@
+﻿<Window x:Class="Detector.Example.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Detector.Example"
+        xmlns:g="clr-namespace:WpfGauge;assembly=WpfGauge"
+        mc:Ignorable="d"
+        Title="Detectors Example" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:StartViewModel}">
+            <local:StartView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:DiagnosisViewModel}">
+            <local:DiagnosisView />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+    <ContentControl Content="{Binding CurrentViewModel}" />
+</Window>
