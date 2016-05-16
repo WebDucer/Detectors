@@ -26,6 +26,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detector", "src\Detector\De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detector.Tests", "tests\Detector.Tests\Detector.Tests.csproj", "{8E362317-4E12-4C9D-AE89-F6988E3B6A97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detector.Example.Tests", "tests\Detector.Example.Tests\Detector.Example.Tests.csproj", "{F97A84A4-7632-4025-B12E-3028B5C93E22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detector.Example", "src\Detector.Example\Detector.Example.csproj", "{1F6C3516-EC68-4C30-BC36-9DB2361B182A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,14 @@ Global
 		{8E362317-4E12-4C9D-AE89-F6988E3B6A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E362317-4E12-4C9D-AE89-F6988E3B6A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E362317-4E12-4C9D-AE89-F6988E3B6A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F97A84A4-7632-4025-B12E-3028B5C93E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F97A84A4-7632-4025-B12E-3028B5C93E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F97A84A4-7632-4025-B12E-3028B5C93E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F97A84A4-7632-4025-B12E-3028B5C93E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F6C3516-EC68-4C30-BC36-9DB2361B182A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F6C3516-EC68-4C30-BC36-9DB2361B182A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F6C3516-EC68-4C30-BC36-9DB2361B182A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F6C3516-EC68-4C30-BC36-9DB2361B182A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,5 +59,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6AFCB6E5-AD07-486D-8026-E923DFB89B6F} = {07A84B82-8A56-40D1-9347-04729DF17150}
 		{8E362317-4E12-4C9D-AE89-F6988E3B6A97} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{F97A84A4-7632-4025-B12E-3028B5C93E22} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{1F6C3516-EC68-4C30-BC36-9DB2361B182A} = {07A84B82-8A56-40D1-9347-04729DF17150}
 	EndGlobalSection
 EndGlobal
