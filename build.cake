@@ -78,11 +78,16 @@ Task("BuildTests")
 Task("RunTests")
     .IsDependentOn("BuildTests")
     .Does(() => {
+        var testResultFile = artifactOutput + File("TestResults.xml");
         var testFiles = GetFiles(testOutput.Path.FullPath + "/*Tests.dll");
         var testSetiings = new NUnit3Settings {
-            Results = artifactOutput + File("TestResults.xml")
+            Results = testResultFile
         };
         NUnit3(testFiles, testSetiings);
+
+        if(BuildSystem.IsRunningOnAppVeyor) {
+            BuildSystem.AppVeyor.UploadTestResults(testResultFile, AppVeyorTestResultsType.NUnit3);
+        }
     });
 
 /*
