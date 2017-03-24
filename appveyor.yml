@@ -1,13 +1,13 @@
 init:
   - git config --global core.autocrlf input
-image: Visual Studio 2015
+image: Visual Studio 2017
 clone_script:
 - cmd: >-
     git clone -q https://bitbucket.org/webducertutorials/detectors.git C:\projects\detectors
 
     git checkout -qf %APPVEYOR_REPO_BRANCH%
 build_script:
-  - cmd: build.cmd
+  - ps: .\build.ps1
 build:
   verbosity: minimal
 test: off

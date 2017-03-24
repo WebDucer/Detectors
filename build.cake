@@ -17,7 +17,8 @@ var projectName = "WD.Detector";
 var summary = "Implementation of Detector use case";
 var description = "Implementation of Detector use case, if only one of the events is relevant.";
 var authors = new [] { "Eugen [WebDucer] Richter" };
-var tags = "Detector Event Async";
+var tags = new [] { "Detector", "Event", "Async" };
+var copyright = "MIT - WebDucer (c) " + DateTime.Now.Year;
 
 // Version
 var version = GitVersion();
@@ -90,7 +91,7 @@ Task("RunTests")
 Task("PatchAssemblyVersion")
     .IsDependentOn("RestoreDependencies")
     .Does(() => {
-        var versionSettings = new GitVersinSettings {
+        var versionSettings = new GitVersionSettings {
             UpdateAssemblyInfo = true
         };
         GitVersion(versionSettings);
@@ -103,11 +104,46 @@ Task("BuildLibrary")
     .IsDependentOn("RestoreDependencies")
     .IsDependentOn("PatchAssemblyVersion")
     .Does(() => {
+        var toBuildFolder = MakeAbsolute(buildOutput);
+        var buildProjects = GetFiles("./src/**/Detector.csproj");
+        foreach(var project in buildProjects){
+            buildProject(project, toBuildFolder);
+        }
+    });
 
+/*
+ * Create NuGet package
+ */
+Task("CreatePackage")
+    .IsDependentOn("RunTests")
+    .IsDependentOn("BuildLibrary")
+    .Does(() => {
+        var libFolder = Directory("lib") + Directory("net45");
+        var nugetSettings = new NuGetPackSettings {
+            Id = projectName,
+            Title = projectName,
+            Summary = summary,
+            Description = description,
+            Authors = authors,
+            Owners = authors,
+            Version = version.NuGetVersion,
+            Tags = tags,
+            OutputDirectory = artifactOutput,
+            Copyright = copyright,
+            BasePath = "./",
+            Files = new [] {
+                new NuSpecContent {
+                    Source = buildOutput + File("WD.Detector.dll"),
+                    Target = libFolder
+                }
+            }
+        };
+
+        NuGetPack(nugetSettings);
     });
 
 Task("Default")
-    .IsDependentOn("RunTests");
+    .IsDependentOn("CreatePackage");
 
 /*
  * Run build
