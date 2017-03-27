@@ -1,6 +1,5 @@
 ﻿using de.webducer.net.Detector.Base;
 using System;
-using System.Timers;
 
 namespace de.webducer.net.Detector.BaseDetectors {
   /// <summary>
@@ -9,7 +8,8 @@ namespace de.webducer.net.Detector.BaseDetectors {
   /// <typeparam name="T">Result type</typeparam>
   public class TimeoutDetector<T> : DetectorBase<T> {
     #region Fields
-    private readonly Timer _timer;
+    private TimeoutTimer _timer;
+		private readonly TimeSpan _timeOut;
     #endregion
 
     #region Constructors
@@ -19,35 +19,29 @@ namespace de.webducer.net.Detector.BaseDetectors {
         throw new ArgumentException("Timeout should be alsways positive", nameof(timeOut));
       }
 
-      _timer = new Timer(timeOut.TotalMilliseconds) { AutoReset = false };
+			_timeOut = timeOut;
     }
     #endregion
 
     #region DetectorBase<T> Implementation
     protected override void OnCleanup() {
       // unregister event
-      _timer.Elapsed -= OnTimeOut;
-
-      // release resources
-      _timer.Stop();
-      _timer.Close();
+			_timer?.Dispose();
+			_timer = null;
     }
 
     protected override void OnStart() {
-      // register timeout event
-      _timer.Elapsed += OnTimeOut;
-
-      // start timer
-      _timer.Start();
+			// register timeout event
+			_timer = new TimeoutTimer(_timeOut, OnTimeOut);
     }
     #endregion
 
     #region Helper
-    private void OnTimeOut(object sender, ElapsedEventArgs e) {
+    private void OnTimeOut() {
       // Stop timer, if result already set
       if (TcsResult.IsResultSet) {
-        _timer.Elapsed -= OnTimeOut;
-        _timer.Stop();
+				_timer?.Dispose();
+				_timer = null;
         return;
       }
 

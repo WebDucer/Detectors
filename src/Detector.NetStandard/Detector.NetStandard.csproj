@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <AssemblyName>WD.Detector</AssemblyName>
+    <RootNamespace>de.webducer.net.Detector</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\Detector.Share\Detector.Share.projitems" Label="Shared" Condition="Exists('..\Detector.Share\Detector.Share.projitems')" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+  </ItemGroup>
+</Project>

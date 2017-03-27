@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{A07EA741-3BF5-456C-B511-B9B62A0D01B7}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>de.webducer.net.Detector</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Base\DetectorBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\ResultState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\TaskCompletionSourceWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\TaskResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseDetectors\CancelationDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BaseDetectors\TimeoutDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DetectorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDetector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITaskResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Base\TimeoutTimer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Base\" />
+    <Folder Include="$(MSBuildThisFileDirectory)BaseDetectors\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Interfaces\" />
+  </ItemGroup>
+</Project>

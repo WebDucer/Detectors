@@ -9,6 +9,9 @@ var target = Argument("target", "Default");
 var solutionPath = File("Detector.sln");
 var baseOutput = Directory("Output");
 var buildOutput = baseOutput + Directory("Build");
+var buildOutputNet45 = buildOutput + Directory("net45");
+var buildOutputNetStandard = buildOutput + Directory("netstandard");
+var buildOutputPCL = buildOutput + Directory("pcl");
 var testOutput = baseOutput + Directory("TestBuild");
 var artifactOutput = baseOutput + Directory("Artifacts");
 
@@ -109,8 +112,23 @@ Task("BuildLibrary")
     .IsDependentOn("RestoreDependencies")
     .IsDependentOn("PatchAssemblyVersion")
     .Does(() => {
-        var toBuildFolder = MakeAbsolute(buildOutput);
+        // Net 45
+        var toBuildFolder = MakeAbsolute(buildOutputNet45);
         var buildProjects = GetFiles("./src/**/Detector.csproj");
+        foreach(var project in buildProjects){
+            buildProject(project, toBuildFolder);
+        }
+
+        // NetStandard
+        toBuildFolder = MakeAbsolute(buildOutputNetStandard);
+        buildProjects = GetFiles("./src/**/Detector.NetStandard.csproj");
+        foreach(var project in buildProjects){
+            buildProject(project, toBuildFolder);
+        }
+
+        // PCL
+        toBuildFolder = MakeAbsolute(buildOutputPCL);
+        buildProjects = GetFiles("./src/**/Detector.PCL.csproj");
         foreach(var project in buildProjects){
             buildProject(project, toBuildFolder);
         }
@@ -123,7 +141,12 @@ Task("CreatePackage")
     .IsDependentOn("RunTests")
     .IsDependentOn("BuildLibrary")
     .Does(() => {
-        var libFolder = Directory("lib") + Directory("net45");
+        var libFolderNet45 = Directory("lib") + Directory("net45");
+        var libFolderNetStandard = Directory("lib") + Directory("netstandard1.1");
+        var libFolderPcl = Directory("lib") + Directory("portable-net45+wp8+win8");
+        var libFolderAndroid = Directory("lib") + Directory("MonoAndroid");
+        var libFolderIos = Directory("lib") + Directory("xamarinios");
+
         var nugetSettings = new NuGetPackSettings {
             Id = projectName,
             Title = projectName,
@@ -138,8 +161,24 @@ Task("CreatePackage")
             BasePath = "./",
             Files = new [] {
                 new NuSpecContent {
-                    Source = buildOutput + File("WD.Detector.dll"),
-                    Target = libFolder
+                    Source = buildOutputNet45 + File("WD.Detector.dll"),
+                    Target = libFolderNet45
+                },
+                new NuSpecContent {
+                    Source = buildOutputNetStandard + File("WD.Detector.dll"),
+                    Target = libFolderNetStandard
+                },
+                new NuSpecContent {
+                    Source = buildOutputPCL + File("WD.Detector.dll"),
+                    Target = libFolderPcl
+                },
+                new NuSpecContent {
+                    Source = buildOutputPCL + File("WD.Detector.dll"),
+                    Target = libFolderAndroid
+                },
+                new NuSpecContent {
+                    Source = buildOutputPCL + File("WD.Detector.dll"),
+                    Target = libFolderIos
                 }
             }
         };

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("Detector")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Implementation of Detector use case, if only one of the events is relevant.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Eugen [WebDucer] Richter")]
 [assembly: AssemblyProduct("Detector")]
-[assembly: AssemblyCopyright("(c) 2016 Eugen [WebDucer] Richter")]
+[assembly: AssemblyCopyright("(c) 2017 Eugen [WebDucer] Richter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
