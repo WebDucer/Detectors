@@ -9,6 +9,9 @@ var target = Argument("target", "Default");
 var solutionPath = File("Detector.sln");
 var baseOutput = Directory("Output");
 var buildOutput = baseOutput + Directory("Build");
+var buildOutputNet45 = buildOutput + Directory("net45");
+var buildOutputNetStandard = buildOutput + Directory("netstandard");
+var buildOutputPCL = buildOutput + Directory("pcl");
 var testOutput = baseOutput + Directory("TestBuild");
 var artifactOutput = baseOutput + Directory("Artifacts");
 
