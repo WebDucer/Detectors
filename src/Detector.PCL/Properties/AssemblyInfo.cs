@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("Detector.PCL")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Detector")]
+[assembly: AssemblyDescription("Implementation of Detector use case, if only one of the events is relevant.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("${AuthorCopyright}")]
+[assembly: AssemblyCompany("Eugen [WebDucer] Richter")]
+[assembly: AssemblyProduct("Detector")]
+[assembly: AssemblyCopyright("(c) 2017 Eugen [WebDucer] Richter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
