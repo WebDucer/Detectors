@@ -2,6 +2,9 @@
 #tool "nuget:?package=GitVersion.CommandLine"
 #tool "nuget:?package=NUnit.ConsoleRunner"
 
+// Add Ins
+#addin "Cake.FileHelpers"
+
 // Target
 var target = Argument("target", "Default");
 
@@ -22,6 +25,9 @@ var description = "Implementation of Detector use case, if only one of the event
 var authors = new [] { "Eugen [WebDucer] Richter" };
 var tags = new [] { "Detector", "Event", "Async" };
 var copyright = "MIT - WebDucer (c) " + DateTime.Now.Year;
+var projectUri = new Uri("https://bitbucket.org/webducertutorials/detectors");
+var licenceUri = new Uri("https://bitbucket.org/webducertutorials/detectors/src/master/LICENSE.txt");
+var releaseNotes = FileReadLines("RELEASE_NOTES.md");
 
 // Version
 var version = GitVersion();
@@ -159,6 +165,9 @@ Task("CreatePackage")
             OutputDirectory = artifactOutput,
             Copyright = copyright,
             BasePath = "./",
+            ProjectUrl = projectUri,
+            LicenseUrl = licenceUri,
+            ReleaseNotes = releaseNotes,
             Files = new [] {
                 new NuSpecContent {
                     Source = buildOutputNet45 + File("WD.Detector.dll"),
