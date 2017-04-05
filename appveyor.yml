@@ -12,6 +12,9 @@ build:
   verbosity: minimal
 test: off
 version: Build-{build}-{branch}
+artifacts:
+- path: '**/Artifacts/*.nupkg'
+  name: Nuget Package
 deploy:
 - provider: NuGet
   api_key:

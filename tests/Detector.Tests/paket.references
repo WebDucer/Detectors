@@ -1,4 +1,0 @@
-﻿group UnitTest
-  NUnit
-  FluentAssertions
-  Moq
