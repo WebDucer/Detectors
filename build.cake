@@ -26,7 +26,7 @@ var authors = new [] { "Eugen [WebDucer] Richter" };
 var tags = new [] { "Detector", "Event", "Async" };
 var copyright = "MIT - WebDucer (c) " + DateTime.Now.Year;
 var projectUri = new Uri("https://bitbucket.org/webducertutorials/detectors");
-var licenceUri = new Uri("https://bitbucket.org/webducertutorials/detectors/src/master/LICENSE.txt");
+var licenceUri = new Uri("https://bitbucket.org/webducertutorials/detectors/raw/master/LICENSE.txt");
 var releaseNotes = FileReadLines("RELEASE_NOTES.md");
 
 // Version
