@@ -194,7 +194,7 @@ Task("CreatePackage")
                 // NetStandard
                 new NuSpecDependency {
                     Id = "System.Threading.Tasks.Parallel",
-                    TargetFramework = "netstandard1.1"
+                    TargetFramework = "netstandard1.1",
                     Version = "4.3.0"
                 }
             }
