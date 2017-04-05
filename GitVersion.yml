@@ -1,0 +1,13 @@
+mode: ContinuousDeployment
+next-version: 0.2.0
+branches:
+  dev(elop)?(ment)?$:
+    tag: beta
+  features?[/-]:
+    tag: alpha
+  hotfix(es)?[/-]:
+    tag: hotfix
+  releases?[/-]:
+    tag: rc
+ignore:
+  sha: []

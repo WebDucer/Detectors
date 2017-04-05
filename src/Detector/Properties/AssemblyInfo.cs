@@ -1,15 +1,15 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("Detector")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Implementation of Detector use case, if only one of the events is relevant.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Eugen [WebDucer] Richter")]
 [assembly: AssemblyProduct("Detector")]
-[assembly: AssemblyCopyright("(c) 2016 Eugen [WebDucer] Richter")]
+[assembly: AssemblyCopyright("(c) 2017 Eugen [WebDucer] Richter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
-// [assembly: AssemblyVersion("0.0.1.0")]
-[assembly: AssemblyVersion("0.0.1.0")]
-[assembly: AssemblyFileVersion("0.0.1.0")]
-[assembly: AssemblyInformationalVersion("0.0.1.0")]
+// [assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]
+[assembly: AssemblyInformationalVersion("0.2.0-alpha.11+Branch.feature/DeployNugetPackage.Sha.1f68f8e1521cfe7c715e2891ccbeec190daf9ccf")]
