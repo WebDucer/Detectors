@@ -189,6 +189,14 @@ Task("CreatePackage")
                     Source = buildOutputPCL + File("WD.Detector.dll"),
                     Target = libFolderIos
                 }
+            },
+            Dependencies = new [] {
+                // NetStandard
+                new NuSpecDependency {
+                    Id = "System.Threading.Tasks.Parallel",
+                    TargetFramework = "netstandard1.1"
+                    Version = "4.3.0"
+                }
             }
         };
 
